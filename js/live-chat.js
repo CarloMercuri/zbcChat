@@ -7,13 +7,22 @@ const chatArea = document.querySelector('.chat-area');
 const inputElm = document.querySelector('input[name="msg-input');
 const uuidCookieName = "zbc_auth_uuid";
 
+const GET_ADDRESS = "https://localhost:44333/api/Chat";
+const POST_ADDRESS = "https://localhost:44333/api/Chat";
+
+// Returns a Promise that resolves after "ms" Milliseconds
+const timer = ms => new Promise(res => setTimeout(res, ms))
+
+const chatRefreshTime = 1500;
+
 let isChatActive = false;
 
 
 // Add the ability to send messages with enter
 inputElm.addEventListener('keyup', ({key}) => {
     if (key === "Enter") {
-        submitChatMessage();
+        submitChatMessage(inputElm.value);
+        inputElm.value = "";
     }
 })
 
@@ -35,15 +44,23 @@ chatBtn.addEventListener('click', () => {
 chatSubmitBtn.addEventListener('click', submitChatMessage);
 
 // Triggered when a chat message is sent
-function submitChatMessage() {
+function submitChatMessage(msg) {
+
+    if(msg === "/stop") {
+        endChatSession();
+        return;
+    }   
+
     // Append the message
-    appendUserMessage(inputElm.value)
+    appendUserMessage(msg)
 
     // send to POST
     sendPostMessage("hello", "carlo");
-    //getMessages();
 
-    inputElm.value = "";
+    isChatActive = true;
+    chatLoop();
+
+
 }
 
 // Appends the user message
@@ -63,6 +80,22 @@ function appendTeacherMessage(msg) {
     chatArea.insertAdjacentHTML("beforeend", messageText);
 }
 
+                                ///////// LOGIC  ////////////
+
+function endChatSession(){
+    isChatActive = false;
+}
+                                
+// Keeps going untill isChatActive is false
+async function chatLoop () {
+    if(isChatActive) {
+        getMessages();
+        await timer(chatRefreshTime);
+        chatLoop();
+    }
+}
+
+
                                    ////////// API ///////////
 
 // UUID
@@ -76,8 +109,9 @@ function getUUID(){
     return getCookie(uuidCookieName);
 }
 
-function generateUUID() { // Public Domain/MIT
-    var d = new Date().getTime();//Timestamp
+// Generate a random UUID
+function generateUUID() { 
+    var d = new Date().getTime(); //Timestamp
     var d2 = (performance && performance.now && (performance.now()*1000)) || 0; //Time in microseconds since page-load or 0 if unsupported
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16;//random number between 0 and 16
@@ -92,6 +126,7 @@ function generateUUID() { // Public Domain/MIT
     });
 }
 
+// sets the specified cookie
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -99,6 +134,8 @@ function setCookie(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
+
+// Attempts to grab the specified cookie, otherwise returns an empty string
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -130,9 +167,7 @@ const getMessagesAction = (callback) => {
     });
 
     //request.open('GET', 'https://jsonplaceholder.typicode.com/todos')
-    request.open('GET', 'https://localhost:44333/api/Chat')
-    //request.open('GET', 'http://api.taotek.dk/api/Products/8710398169280')
-
+    request.open('GET', GET_ADDRESS)
 
     // Gets the UUID and sets it in the header. Creates one if not existing already
     request.setRequestHeader("zbc_auth_uuid", getUUID()); 
@@ -143,6 +178,9 @@ const getMessagesAction = (callback) => {
 
 
 function getMessages() {
+
+    if(!isChatActive) return;
+
     getMessagesAction((error, data) => {
         if(error) {
             console.log(error);
@@ -178,8 +216,7 @@ function sendPostMessage(msg, user_name) {
         }
     })
 
-    //request.open('POST', 'https://localhost:44333/api/Chat');
-    request.open('POST', 'https://localhost:44394/api/ConversationController');
+    request.open('POST', POST_ADDRESS);
     request.setRequestHeader('zbc_auth_uuid', getUUID());
     request.setRequestHeader('zbc_user_name', getUUID());
     request.setRequestHeader('Content-Type', "application/json");
