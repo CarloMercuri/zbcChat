@@ -72,7 +72,11 @@ section {
   position: relative;
   display: flex;
   justify-content: center;
+}
 
+.name-input-area {
+  position: relative;
+  justify-content: center;
 }
 
 

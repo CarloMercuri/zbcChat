@@ -5,10 +5,13 @@ const chatBtn = document.querySelector('.chat-btn');
 const chatSubmitBtn = document.querySelector('.chat-submit-btn');
 const chatArea = document.querySelector('.chat-area');
 const inputElm = document.querySelector('input[name="msg-input');
+const nameInputArea = document.querySelector('.name-input-area');
+const nameInputElm = document.querySelector('input[name="name-input');
 const uuidCookieName = "zbc_auth_uuid";
 
 const GET_ADDRESS = "https://localhost:44333/api/Chat";
 const POST_ADDRESS = "https://localhost:44333/api/Chat";
+
 
 // Returns a Promise that resolves after "ms" Milliseconds
 const timer = ms => new Promise(res => setTimeout(res, ms))
@@ -16,6 +19,13 @@ const timer = ms => new Promise(res => setTimeout(res, ms))
 const chatRefreshTime = 1500;
 
 let isChatActive = false;
+
+// When a new session starts, ask for username
+if(!nameInputArea.classList.contains('show')) {
+    nameInputArea.classList.add('show');
+}
+
+
 
 
 // Add the ability to send messages with enter
