@@ -21,10 +21,12 @@ const chatRefreshTime = 1500;
 let isChatActive = false;
 
 // When a new session starts, ask for username
-if(!nameInputArea.classList.contains('show')) {
-    nameInputArea.classList.add('show');
+if(nameInputArea.classList.contains('show')) {
+    nameInputArea.classList.remove('show');
 }
 
+
+console.log(getUUID());
 
 
 
@@ -225,6 +227,8 @@ function sendPostMessage(msg, user_name) {
             console.log(this.responseText);
         }
     })
+
+    
 
     request.open('POST', POST_ADDRESS);
     request.setRequestHeader('zbc_auth_uuid', getUUID());
