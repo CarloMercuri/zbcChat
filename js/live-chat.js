@@ -9,8 +9,8 @@ const nameInputArea = document.querySelector('.name-input-area');
 const nameInputElm = document.querySelector('input[name="name-input');
 const uuidCookieName = "zbc_auth_uuid";
 
-const GET_ADDRESS = "https://localhost:44333/api/Chat";
-const POST_ADDRESS = "https://localhost:44333/api/Chat";
+const GET_ADDRESS = "https://localhost:44394/api/Conversation";
+const POST_ADDRESS = "https://localhost:44394/api/Conversation";
 
 
 // Returns a Promise that resolves after "ms" Milliseconds
@@ -25,7 +25,7 @@ if(nameInputArea.classList.contains('show')) {
     nameInputArea.classList.remove('show');
 }
 
-
+setCookie(uuidCookieName, generateUUID(), 120);
 console.log(getUUID());
 
 
@@ -209,7 +209,6 @@ function getMessages() {
 // Formats the data in JSON
 function formatPostMessage(msg, username) {
     return JSON.stringify({
-        user_name: username,
         message: msg
     })
 }
@@ -221,18 +220,16 @@ function sendPostMessage(msg, user_name) {
     const request = new XMLHttpRequest();
     //request.withCredentials = true;
     
-
     request.addEventListener('readystatechange', function() {
         if(this.readyState === this.DONE) {
             console.log(this.responseText);
         }
     })
-
-    
+  
 
     request.open('POST', POST_ADDRESS);
     request.setRequestHeader('zbc_auth_uuid', getUUID());
-    request.setRequestHeader('zbc_user_name', getUUID());
+    request.setRequestHeader('zbc_user_name', user_name);
     request.setRequestHeader('Content-Type', "application/json");
 
     // Formats the data into JSON and send the POST
