@@ -1,12 +1,21 @@
-body {
-  background-color: rgb(219, 219, 219);
-}
 
-section {
+.live-chat-section {
   max-width: 1100px;
   margin: auto;
   text-align: center;
   padding: 0 1rem;
+}
+
+.show {
+  display: flex;
+}
+
+.color-dodgerblue {
+  background-color: dodgerblue;
+}
+
+.color-adminred {
+  background-color: rgb(204, 48, 48);
 }
 
 
@@ -17,7 +26,6 @@ section {
   border: none;
   outline: none;
   cursor: pointer;
-  background-color: dodgerblue;
   color: white;
   width: 50px;
   height: 50px;
@@ -27,19 +35,40 @@ section {
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4);
 }
 
+.admins-refresh-button {
+  display:inline-table;
+  border-radius: 10%;
+  height: 40px;
+  background-color: rgb(211, 155, 155);
+  border: 2px solid #646464;
+  font-family: bold;
+  font-size: 20;
+  color: rgb(218, 218, 218);
+}
+
+.admins-refresh-button:hover {
+  border: 2px solid #b6b6b6;
+}
+
+.admins-refresh-button:active {
+  transform: translateY(4px);
+  border-style: hidden;
+}
+
 .chat-btn:hover, .chat-submit-btn:hover, #emoji-btn:hover {
   opacity: 1;
 }
 
 .chat-popup {
-  display: none;
+  /*display: none; */ 
+  display: flex;
   position: fixed;
-  bottom: 80px;
-  right: 120px;
+  bottom: 110px;
+  right: 250px;
   height: 400px;
   width: 300px;
   background-color: white;
-  /* display: flex; */
+
   flex-direction: column;
   justify-content: space-between;
   padding: 0.75rem;
@@ -48,18 +77,85 @@ section {
   border-radius: 15px;
 }
 
+.admin-chats-popup {
+  display: none; 
+  position: fixed;
+  bottom: 110px;
+  right:10px;
+  height: 425px;
+  width: 230px;
+  background-color: white;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+}
+
+
+.admins-chat-header {
+  background-color: rgb(204, 48, 48);
+  display:inline-table;
+  width: 100%;
+
+  border-radius: 15px;
+  border-bottom-right-radius: 0%;
+  border-bottom-left-radius: 0%;
+  color: white;
+  font-size: 1.2rem;
+}
+
+
+
+
+
 .chat-area {
   height: 80%;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.incoming-msg {
+.incoming-msg-container {
   display: flex;
   align-items: center;
 }
 
-.incoming-msg .incoming-msg-body {
+.admins-chat-area {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0px;
+}
+
+.admins-chat-queue-parent {
+  width: 226px;
+  border: 2px solid #646464;
+  border-radius: 8px ;
+}
+
+.admins-chat-queue-parent:hover { 
+  border: 3px solid rgb(160, 160, 160);
+}
+
+.admins-chat-queue-body {
+  background-color: rgb(255, 255, 255);
+  height: 40px;
+  color: black;
+  font-weight: normal;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.admins-chat-queue-user-name {
+    background-color: rgb(211, 155, 155);
+    width: 100%;
+    height: 20%;
+    color: rgb(255, 255, 255);
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.incoming-msg-container .incoming-msg-body {
   background-color: rgb(79, 165, 251);
   color:white;
   padding: 0.5rem;
@@ -114,9 +210,7 @@ input[name="msg-input"]:focus {
   border: none;
 }
 
-.show {
-  display: flex;
-}
+
 
 .user-msg-container {
   display: flex;

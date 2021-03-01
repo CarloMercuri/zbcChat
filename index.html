@@ -6,12 +6,11 @@
         <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" />
     </head>
     <body>
-        
-        <section>
-            <button class="chat-btn">
-                <i class="material-icons"> comment </i>
-            </button>
+        <button class="chat-btn">
+            <i class="material-icons"> comment </i>
+        </button>
 
+        <section class="live-chat-section">
             <div class="chat-popup">
                 <!--<div class="badge">1</div> -->
                 
@@ -22,11 +21,12 @@
 
 
                 <div class="chat-area">
-                    <div class="incoming-msg">
+                    <div class="incoming-msg-container">
                         <!-- img-->
                         <span class="incoming-msg-body"> Hello there, how can I help?</span>
                     </div>
                 </div>
+
 
                 <div class="input-area">
                     <input type="text" name="msg-input">
@@ -34,6 +34,27 @@
                     <button class="chat-submit-btn"><i class="material-icons"> send </i></button>
                 </div>
 
+            </div>
+
+            
+            <div class="admin-chats-popup">
+                    <label class="admins-chat-header">Active Chats</label>
+                    <div class="admins-chat-area">
+                        <div class="admins-chat-queue-parent">
+                            <div class="admins-chat-queue-user-name">Carlo
+                                <div class="admins-chat-queue-body">Message number 1</div>
+                            </div>
+                        </div>
+                        <div class="admins-chat-queue-parent">
+                        <div class="admins-chat-queue-user-name">Andrea
+                            <div class="admins-chat-queue-body">Message number 2</div>
+                        </div>
+                    </div>
+
+                    </div>
+                    <button class="admins-refresh-button">REFRESH</button>
+
+                    
             </div>
         </section>
 
